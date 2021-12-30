@@ -1,0 +1,57 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      clean:
+        description: 'Clean'
+        required: true
+        default: '0'
+  repository_dispatch:
+    types: [ build ]
+
+jobs:
+  run:
+
+    runs-on: active-runners
+
+    steps:
+
+    - name: Checkout source
+      uses: actions/checkout@v2
+      with:
+        path: site
+        ssh-key: ${{ secrets.SSH_KEY }}
+        lfs: true
+        submodules: recursive
+
+    - name: Configure cache
+      run: |
+        source ~/.github_actions_env
+        cd site
+        echo "Using cache at '${GITHUB_ACTIONS_CACHE_PATH}'..."
+        mkdir -p "${GITHUB_ACTIONS_CACHE_PATH}/jbmorley.co.uk/build"
+        ln -s "${GITHUB_ACTIONS_CACHE_PATH}/jbmorley.co.uk/build" build
+
+    - name: Clean site
+      if: github.event.inputs.clean == '1'
+      run: |
+        source ~/.github_actions_env
+        cd site
+        rm -r build/*
+
+    - name: Build site
+      run: |
+        source ~/.github_actions_env
+        cd site
+        touch templates/build.txt
+        python3 incontext/incontext --volume "${GITHUB_ACTIONS_CACHE_PATH}/jbmorley.co.uk/build" build
+
+    - name: Deploy site
+      env:
+        ANSIBLE_SSH_KEY: ${{ secrets.ANSIBLE_SSH_KEY }}
+      run: |
+        cd site
+        ./ansible/deploy.py
