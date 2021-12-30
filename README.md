@@ -1,3 +1,3 @@
 # Debian Repository
 
-Auto-generated Debian repository for InSeven releases.
+Auto generates and deploys a Debian repository for InSeven releases.
