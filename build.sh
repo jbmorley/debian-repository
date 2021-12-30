@@ -19,6 +19,7 @@ mkdir -p "${BUILD_DIRECTORY}"
 
 pushd "${ANSIBLE_DIRECTORY}"
 echo -e "$ANSIBLE_SSH_KEY" > id_ed25519
+chmod 0400 id_ed25519
 ansible-playbook \
     --extra-vars ansible_ssh_private_key_file=id_ed25519 \
     packages.yaml
