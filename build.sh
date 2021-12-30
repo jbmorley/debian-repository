@@ -13,7 +13,7 @@ if [ -d "${BUILD_DIRECTORY}" ] ; then
 fi
 mkdir -p "${BUILD_DIRECTORY}"
 
-"${ROOT_DIRECTORY}/package-repository.py" \
+"${ROOT_DIRECTORY}/create-repository" \
     --output "${BUILD_DIRECTORY}/raspbian" \
     "inseven/elsewhere"
 
