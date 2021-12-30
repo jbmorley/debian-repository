@@ -1,0 +1,15 @@
+---
+# Usage:
+
+- name: packages.inseven.co.uk
+  hosts: jbmorley
+  vars:
+    domain: packages.inseven.co.uk
+
+  tasks:
+
+    - name: configure packages.inseven.co.uk
+      include: tasks/create_vhost.yml
+
+    - name: Synchronize packages
+      synchronize: src="../build/" dest="/var/www/{{ domain }}/" delete=yes

@@ -1,0 +1,23 @@
+# Creates and configures an nginx site
+---
+
+- name: create virtual host file
+  template: src=virtualhost.conf dest="/etc/nginx/sites-available/{{ domain }}.conf"
+  become: yes
+
+- name: enable site
+  file:
+    src: /etc/nginx/sites-available/{{ domain }}.conf
+    dest: /etc/nginx/sites-enabled/{{ domain }}.conf
+    owner: root
+    group: root
+    state: link
+  become: yes
+
+- name: create site directory
+  file: path="/var/www/{{ domain }}" state=directory owner="{{ ansible_user_id }}" group="{{ ansible_user_id }}"
+  become: yes
+
+- name: restart nginx
+  service: name=nginx state=restarted
+  become: yes
