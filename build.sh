@@ -18,5 +18,5 @@ mkdir -p "${BUILD_DIRECTORY}"
     "inseven/elsewhere"
 
 pushd "${ANSIBLE_DIRECTORY}"
-ansible-playbook packages.yaml --ask-become-pass
+ansible-playbook packages.yaml
 popd
