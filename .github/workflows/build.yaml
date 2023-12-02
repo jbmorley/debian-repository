@@ -21,7 +21,7 @@ jobs:
     - name: Build
       run: |
         ./build.sh
-        mv docs/build/files _site
+        mv build _site
 
     - name: Fix permissions
       run: |
