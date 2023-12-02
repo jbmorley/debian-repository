@@ -18,3 +18,4 @@ mkdir -p "${BUILD_DIRECTORY}"
     "inseven/elsewhere"
 
 cp index.html "$BUILD_DIRECTORY/index.html"
+cp CNAME "$BUILD_DIRECTORY/CNAME"
